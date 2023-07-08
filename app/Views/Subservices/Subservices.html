@@ -1,0 +1,146 @@
+{% extends 'Shared/_Layout.html' %}
+{% block Title %} SERVICIOS {% endblock Title %}
+{% block content %}
+
+<body>
+    <button type="button" class="btn btn-outline-dark float-right" data-bs-toggle="modal" data-bs-target="#newModal">
+        NUEVO SUBSERVICIO
+    </button>
+    <div class="table-responsive">
+        <table id="mydatatable" class="table table-hover" style="width:100%">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Subservicio</th>
+                    <th>Descripción</th>
+                    <th>Precio</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in subservices %}
+                <tr style="color: black;">
+                    <td> {{ row.Name }} </td>
+                    <td>{{ row.Description }}</td>
+                    <td>{{ row.Price }}</td>
+                    <td>
+                        <div class="accordion-item" style="background: transparent;">
+                            <h2 class="accordion-header" id="flush-headingOne">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#flush-collapseOne" aria-expanded="false"
+                                    aria-controls="flush-collapseOne">
+                                    <i class="fas fa-tools"></i>
+                                </button>
+                            </h2>
+                            <div id="flush-collapseOne" class="accordion-collapse collapse"
+                                aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body">
+                                    <a href="/EditSubservice/{{row.Id}}" class="btn-link" data-bs-toggle="modal"
+                                        data-bs-target="#editModal{{row.Id}}"><i class="fa fa-edit"
+                                            style="color: green;"></i></a>
+                                    <a href="/DeleteSubservice/{{row.Id}}"
+                                        onclick=" return confirm('¿Seguro que desea eliminar el producto?')"
+                                        class="btnlink"><i class="fa fa-times" style="color: red;"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <!-- Modal Edit Subservices-->
+                    <div class="modal fade" id="editModal{{row.Id}}" data-bs-backdrop="static" data-bs-keyboard="false"
+                        tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-scrollable">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h2>EDITAR SUBSERCICIO</h2>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    {% from 'Macros/MacroForm.html' import mForm %}
+                                    <div class="formBx">
+                                        <form name="Sign-up" action="/EditSubservice/{{ row.Id }}" id="signupForm" method="POST">
+                                            <input type="hidden" name="id" value="{{row.Id}}">
+                                            <div class="inputBx">
+                                                {{ mForm(form.name, class="form__input", value=row.Name) }}
+                                                <span>Servicio</span>
+                                                <i></i>
+                                            </div>
+                                            <div class="inputBx">
+                                                {{ mForm(form.description, class="form__input", value=row.Description) }}
+                                                <span>Descripción</span>
+                                                <i></i>
+                                            </div>
+                                            <div class="inputBx">
+                                                {{ mForm(form.price, class="form__input", value=row.Price) }}
+                                                <span>Precio</span>
+                                                <i></i>
+                                            </div>
+                                            <div class="inputBx">
+                                                {% for row in services %}
+                                                {{ row.Name }}<input type="checkbox" name="services" value="{{ row.Id }}">
+                                                {% endfor %}
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-outline-secondary"
+                                                    data-bs-dismiss="modal">Cancelar</button>
+                                                <div class="form-group">
+                                                    <button type="submit"
+                                                        class="btn btn__outline__orange">EDITAR</button>
+                                                </div>
+                                        </form>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <!-- Modal  New Service-->
+    <div class="modal fade" id="newModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="newModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">NUEVO SUBSERVICIO</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    {% from 'Macros/MacroForm.html' import mForm %}
+                    <form name="Sign-up" action="{{url_for('SubservicesRoute.create')}}" id="signupForm" method="POST">
+                        <div class="inputBx">
+                            {{ mForm(form.name, class="form__input") }}
+                            <span>Servicio</span>
+                            <i></i>
+                        </div>
+                        <div class="inputBx">
+                            {{ mForm(form.description, class="form__input") }}
+                            <span>Descripción</span>
+                            <i></i>
+                        </div>
+                        <div class="inputBx">
+                            {{ mForm(form.price, class="form__input") }}
+                            <span>Precio</span>
+                            <i></i>
+                        </div>
+                        <div class="inputBx">
+                            {% for row in services %}
+                            {{ row.Name }}<input type="checkbox" name="services" value="{{ row.Id }}">
+                            {% endfor %}
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-secondary"
+                                data-bs-dismiss="modal">Cancelar</button>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn__outline__orange">CREAR</button>
+                            </div>
+                    </form>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+{% endblock content %}

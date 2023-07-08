@@ -1,1 +1,29 @@
+1.- INSTALL ALL THE PACKAGES MENTIONED BELOW, FOR ITS POPER FUNCTIONING
+1.- INSTALAR TODOS LOS PAQUETES MENCIONADO A CONTINUACIÓN PARA SU DEBIDO FUNCIONAMIENTO
 flask
+flask-pymysql
+flask-sqlalchemy
+python-dotenv
+python-decouple
+flask-login
+flask-wtf
+email-validator
+
+2.- CREATE A ARCHIVE ".env"
+2.- CREAR UN ARCHIVO ".env"
+
+SECRET_KEY = xxxxxxxx
+MYSQL_HOST = localhost
+MYSQL_USER = root
+MYSQL_DB = dbnube_blanca
+
+3.- CREATE A DATABASE WITH THE NAME "dbnube_blanca" IN MYSQL
+3.- CREAR UNA BASE DE DATO CON EL NOMBRE "dbnube_blanca" EN MYSQL
+
+4.- EXCUTE THE ARCHIVE "dbMigrate.py"
+4.- EJECUTAR EL ARCHIVO "dbMigrate.py"
+        py dbMigrate.py
+
+5.- EXCUTE THE ARCHIVE "ru.py"
+5.- EJECUTAR EL ARCHIVO "ru.py"
+        py run.py

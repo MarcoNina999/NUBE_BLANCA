@@ -1,0 +1,83 @@
+{% extends 'Shared/_Layout.html' %}
+{% block Title %} Iniciar Sesion {% endblock %}
+{% block content %}
+<section>
+    <div class="container">
+        {% from 'Macros/MacroForm.html' import mForm %}
+        <div class="form">
+            <div class="user signinBx">
+                <div class="imgBx"><img alt="Vue logo" src="{{url_for('static', filename = 'Images/Sign-in.jpg')}}">
+                </div>
+                <div class="formBx">
+                    <form name="Sign-in" id="signinForm" method="POST">
+                        <h2>INICIAR SESIóN</h2>
+                        <div class="inputBx">
+                            {{ mForm(form.email, class="form__input") }}
+                            <span>Usuario</span>
+                            <i></i>
+                        </div>
+                        <div class="inputBx">
+                            {{ mForm(form.password, class="form__input") }}
+                            <span>Contraseña</span>
+                            <i></i>
+                        </div>
+                        <button type="submit" class="btn btn__outline__orange">INGRESAR</button>
+                        <p class="signup">¿No Tienes una Cuenta? <a href="#" v-on:click="toggleForm">Registrarse</a></p>
+                    </form>
+                    <div v-if="message != ''">
+                        <p>{{message}}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="user signupBx">
+                <div class="formBx">
+                    <form name="Sign-up" action="Register" id="signupForm" method="POST">
+                        <h2>CREAR CUENTA</h2>
+                        <div class="inputBx">
+                            {{ mForm(form.name, class="form__input") }}
+                            <span>Nombre</span>
+                            <i></i>
+                        </div>
+                        <div class="inputBx">
+                            {{ mForm(form.ci, class="form__input") }}
+                            <span>Cedula de Identidad</span>
+                            <i></i>
+                        </div>
+                        <div class="inputBx">
+                            {{ mForm(form.address, class="form__input") }}
+                            <span>Dirección de Envio</span>
+                            <i></i>
+                        </div>
+                        <div class="inputBx">
+                            {{ mForm(form.phone, class="form__input") }}
+                            <span>Celular</span>
+                            <i></i>
+                        </div>
+                        <div class="inputBx">
+                            {{ mForm(form.email, class="form__input") }}
+                            <span>Correo</span>
+                            <i></i>
+                        </div>
+                        <div class="inputBx">
+                            {{ mForm(form.password, class="form__input") }}
+                            <span>Contraseña</span>
+                            <i></i>
+                        </div>
+                        <!-- <div class="inputBx">
+                            {{ mForm(form.confirmpassword, class="form__input") }}
+                            <span>Contraseña</span>
+                            <i></i>
+                        </div> -->
+                        <button type="submit" class="btn btn__outline__orange">REGISTRAR</button>
+                        <p class="signin">Tiene Cuenta <a href="#" v-on:click="toggleForm">Iniciar Secion</a>
+                        </p>
+                    </form>
+                </div>
+                <div class="imgBx"><img alt="Vue logo" src="{{url_for('static', filename = 'Images/Sign-up.jpg')}}">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}

@@ -1,0 +1,49 @@
+{% extends 'Shared/_Layout.html' %}
+{% block Title %} PRINCIPAL {% endblock Title %}
+
+{% block content %}
+<div class="table-responsive">
+    <table id="mydatatable" class="table table-hover" style="width:100%">
+        <thead class="thead-dark">
+            <tr>
+                <th>USUARIO</th>
+                <th>SERVICIO</th>
+                <th>SUBSERVICIOS</th>
+                <th>FECHA DE ADQUICICIÓN</th>
+                <th>MONTO</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in acquires %}
+            <tr style="color: black;">
+                <td> {{ row.UsersId }} </td>
+                <td>{{ row.ServicesId }}</td>
+                <td>{{ row.Subservices }}</td>
+                <td>{{ row.Create_at }}</td>
+                <td>{{ row.Total }}</td>
+                <td>
+                    <div class="accordion-item" style="background: transparent;">
+                        <h2 class="accordion-header" id="flush-headingOne">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#flush-collapseOne" aria-expanded="false"
+                                aria-controls="flush-collapseOne">
+                                <i class="fas fa-tools"></i>
+                            </button>
+                            <div id="flush-collapseOne" class="accordion-collapse collapse"
+                                aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body">
+                                    <a href="/Alta/{{row.Id}}"
+                                        onclick=" return confirm('¿Seguro que desea de dar de alta?')"
+                                        class="btnlink">DAR ALTA</a>
+                                </div>
+                            </div>
+                        </h2>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

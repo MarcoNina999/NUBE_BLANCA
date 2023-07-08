@@ -1,0 +1,176 @@
+{% extends 'Shared/_Layout.html' %}
+{% block Title %} USUARIOS {% endblock Title %}
+{% block content %}
+
+<body>
+    <button type="button" class="btn btn-outline-dark float-right" data-bs-toggle="modal" data-bs-target="#newModal">
+        NUEVO USUARIO
+    </button>
+    <div class="table-responsive">
+        <table id="mydatatable" class="table table-hover" style="width:100%">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Nombre</th>
+                    <th>CI</th>
+                    <th>Dirección</th>
+                    <th>Celular</th>
+                    <th>Email</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in users %}
+                <tr style="color: black;">
+                    <td> {{ row.Name }} </td>
+                    <td>{{ row.CI }}</td>
+                    <td>{{ row.Address }}</td>
+                    <td>{{ row.Phone }}</td>
+                    <td>{{ row.Email }}</td>
+                    <td>
+                        <div class="accordion-item" style="background: transparent;">
+                            <h2 class="accordion-header" id="flush-headingOne">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#flush-collapseOne" aria-expanded="false"
+                                    aria-controls="flush-collapseOne">
+                                    <i class="fas fa-tools"></i>
+                                </button>
+                            </h2>
+                            <div id="flush-collapseOne" class="accordion-collapse collapse"
+                                aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body">
+                                    <a href="/Edit/{{row.Id}}" class="btn-link" data-bs-toggle="modal"
+                                        data-bs-target="#editModal{{row.Id}}"><i class="fa fa-edit"
+                                            style="color: green;"></i></a>
+                                    <a href="/Delete/{{row.Id}}"
+                                        onclick=" return confirm('¿Seguro que desea eliminar el producto?')"
+                                        class="btnlink"><i class="fa fa-times" style="color: red;"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <!-- Modal Edit Product-->
+                    <div class="modal fade" id="editModal{{row.Id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                        aria-labelledby="editModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-scrollable">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h2>EDITAR CUENTA</h2>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    {% from 'Macros/MacroForm.html' import mForm %}
+                                        <div class="formBx">
+                                            <form name="Sign-up" action="/Edit/{{ row.Id }}" id="signupForm" method="POST">
+                                                <input type="hidden" name="id" value="{{row.Id}}">
+                                                <div class="inputBx">
+                                                    {{ mForm(form.name, class="form__input", value=row.Name) }}
+                                                    <span>Nombre</span>
+                                                    <i></i>
+                                                </div>
+                                                <div class="inputBx">
+                                                    {{ mForm(form.ci, class="form__input", value=row.CI) }}
+                                                    <span>Cedula de Identidad</span>
+                                                    <i></i>
+                                                </div>
+                                                <div class="inputBx">
+                                                    {{ mForm(form.address, class="form__input", value=row.Address) }}
+                                                    <span>Dirección de Envio</span>
+                                                    <i></i>
+                                                </div>
+                                                <div class="inputBx">
+                                                    {{ mForm(form.phone, class="form__input", value=row.Phone) }}
+                                                    <span>Celular</span>
+                                                    <i></i>
+                                                </div>
+                                                <div class="inputBx">
+                                                    {{ mForm(form.email, class="form__input", value=row.Email) }}
+                                                    <span>Correo</span>
+                                                    <i></i>
+                                                </div>
+                                                <div class="inputBx">
+                                                    <select name="role" id="role">
+                                                        {% for row in roles %}
+                                                        <option value="{{ row.Id }}">{{ row.Name }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                                    <div class="form-group">
+                                                        <button type="submit" class="btn btn__outline__orange">EDITAR</button>
+                                                    </div>
+                                                </form>
+                                            </form>
+                                        </div>
+                                    <!-- </div> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <!-- Modal  New Product-->
+    <div class="modal fade" id="newModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="newModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">NUEVO USUARIO</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    {% from 'Macros/MacroForm.html' import mForm %}
+                    <form name="Sign-up" action="{{url_for('UsersRoute.create')}}" id="signupForm" method="POST">
+                        <div class="inputBx">
+                            {{ mForm(form.name, class="form__input") }}
+                            <span>Nombre</span>
+                            <i></i>
+                        </div>
+                        <div class="inputBx">
+                            {{ mForm(form.ci, class="form__input") }}
+                            <span>Cedula de Identidad</span>
+                            <i></i>
+                        </div>
+                        <div class="inputBx">
+                            {{ mForm(form.address, class="form__input") }}
+                            <span>Dirección de Envio</span>
+                            <i></i>
+                        </div>
+                        <div class="inputBx">
+                            {{ mForm(form.phone, class="form__input") }}
+                            <span>Celular</span>
+                            <i></i>
+                        </div>
+                        <div class="inputBx">
+                            {{ mForm(form.email, class="form__input") }}
+                            <span>Correo</span>
+                            <i></i>
+                        </div>
+                        <!-- <div class="inputBx">
+                            {{ mForm(form.password, class="form__input") }}
+                            <span>Contraseña</span>
+                            <i></i>
+                        </div> -->
+                        <div class="inputBx">
+                            <select name="role" id="role">
+                                {% for row in roles %}
+                                <option value="{{ row.Id }}">{{ row.Name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn__outline__orange">CREAR</button>
+                            </div>
+                        </form>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+{% endblock content %}

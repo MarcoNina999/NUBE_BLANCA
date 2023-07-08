@@ -1,0 +1,252 @@
+{% extends 'Shared/_Layout.html' %}
+{% block Title %} SERVICIOS ADQUIRIDOS {% endblock Title %}
+{% block content %}
+
+<style>
+    .BTN{
+        background: transparent;
+        border: transparent;
+        /* text-align: center; */
+    }
+    .BTN1{
+        visibility: hidden;
+        width:1px;
+    }
+
+    .BTN-b {
+        border-bottom-style: dashed;
+        border-bottom-color: black;
+        color: rgb(158, 146, 146);
+        font-size: 20px;
+    }
+</style>
+
+<body>
+    <h2 style="text-align: center;">NUEVA VENTA</h2>
+
+    <div class="card-body py-0">
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered dt-responsive nowrap table-hover" style="border:none">
+                <tr style="font-size:20px; background: inherit;">
+                    <td style="vertical-align:initial; border-style: none">
+                        <h5>SELECCIONAR SERVICIO</h5>
+                        <input id="1" class="btn btn-outline-danger col-md-12 btn__check" type="button" name=""
+                            value="OFICINAS" data-bs-toggle="modal" data-bs-target="#officesModal" />
+                        <input id="2" class="btn btn-outline-warning col-md-12 btn__check" type="button" name=""
+                            value="HOGARES" data-bs-toggle="modal" data-bs-target="#homesModal" />
+                        <input id="3" class="btn btn-outline-success col-md-12 btn__check" type="button" name=""
+                            value="JARDINERÍA" data-bs-toggle="modal" data-bs-target="#gardeningModal" />
+                    </td>
+                    <form action="javascript:fn_Add()" ; method="post" id="frm_usu" class="form-horizontal">
+                        <td style="border-style:none">
+                            Servicio <input style="font-size:20px; font-weight:700;" class="form-control" type="text"
+                                id="Service" required />
+                            Subservicio <input style="font-size:20px; font-weight:700;" class="form-control" type="text"
+                                id="Subservice" required />
+                        </td>
+                        <td style="border-style:none">
+                            Precio <input style="font-size:20px; font-weight:700;" type="text" id="Price"
+                                class="form-control" required />
+                            Descuento (Unidades) <input style="font-size:20px; font-weight:700;" class="form-control"
+                                type="number" id="Discount" value="0" min="0" onfocus="this.value = '';" required />
+                        </td>
+                        <td style="border-style:none" colspan="2">
+                            <input style="width:1px; visibility: hidden" type="text" id="Id" />
+                            <input class="btn btn-primary" type="submit" name="Add" id="Add" value="Agregar" />
+                        </td>
+                    </form>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="card-header py-1">
+        <table>
+            <tr class="bg-gradient-success">
+                <th>Detalle de la Compra</th>
+            </tr>
+        </table>
+    </div>
+    <div class="card-body py-1" style="color: black" id="mycard">
+        <div class="table-responsive">
+            <form method="POST" action="{{url_for('AcquireRoute.save')}}" enctype="multipart/form-data">
+                <table id="details" class="table table-striped border-primary">
+                    <thead style="font-size:18px;">
+                        <tr class="bg-gradient-primary">
+                            <!-- <th></th>
+                            <th></th> -->
+                            <th>SERVICIO</th>
+                            <th>SUBSERVICIO</th>
+                            <th>PRECIO Unit.</th>
+                            <th>DESCUENTO</th>
+                            <th>TOTAL</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <input type="text" name="Subservices" id="Subservices" class="BTN1" />
+                <input type="text" name="IdService" id="IdService" class="BTN1" />
+                TOTAL A PAGAR
+                <input type="text" name="TotalPay" id="TotalPay" class="BTN" /> Bs.
+                <input class="btn btn-outline-primary" style="float: right;" type="submit"  value="Guardar Venta" />
+                <input class="btn btn-outline-danger" style="float: right;" type="button" onclick="location.reload()"
+                    value="Nuevo" />
+            </form>
+        </div>
+    </div>
+    <div class="card-footer py-4" style="background: transparent;">
+    </div>
+<!-- Modal OFFICES -->
+    <div class="modal fade" id="officesModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="officesModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Seleccione Subservicio (Doble Click)</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table id="tableOffices" class="table table-hover" style="width:100%">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Nombre</th>
+                                    <th>Descripción</th>
+                                    <th>Precio</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for row in offices %}
+                                <tr style="color: black;">
+                                    <td> {{ row.Id }} </td>
+                                    <td> {{ row.Name }} </td>
+                                    <td>{{ row.Description }}</td>
+                                    <td>{{ row.Price }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- Modal HOMES -->
+    <div class="modal fade" id="homesModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="homesModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Seleccione Subservicio (Doble Click)</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table id="tableHomes" class="table table-hover" style="width:100%">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Nombre</th>
+                                    <th>Descripción</th>
+                                    <th>Precio</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for row in homes %}
+                                <tr style="color: black;">
+                                    <td> {{ row.Id }} </td>
+                                    <td> {{ row.Name }} </td>
+                                    <td>{{ row.Description }}</td>
+                                    <td>{{ row.Price }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- Modal GARDENING -->
+    <div class="modal fade" id="gardeningModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="gardeningModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Seleccione Subservicio (Doble Click)</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table id="tableGardening" class="table table-hover" style="width:100%">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Nombre</th>
+                                    <th>Descripción</th>
+                                    <th>Precio</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for row in gardening %}
+                                <tr style="color: black;">
+                                    <td> {{ row.Id }} </td>
+                                    <td> {{ row.Name }} </td>
+                                    <td>{{ row.Description }}</td>
+                                    <td>{{ row.Price }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table id="mydatatable" class="table table-hover" style="width:100%">
+            <thead class="thead-dark">
+                <tr>
+                    <th>SUBSERVICIOS</th>
+                    <th>FECHA DE ADQUICICIÓN</th>
+                    <th>MONTO</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in acquires %}
+                <tr style="color: black;">
+                    <td>{{ row.Subservices }}</td>
+                    <td>{{ row.Create_at }}</td>
+                    <td>{{ row.Total }}</td>
+                    <td>
+                        <div class="accordion-item" style="background: transparent;">
+                            <h2 class="accordion-header" id="flush-headingOne">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#flush-collapseOne" aria-expanded="false"
+                                    aria-controls="flush-collapseOne">
+                                    <i class="fas fa-tools"></i>
+                                </button>
+                                <div id="flush-collapseOne" class="accordion-collapse collapse"
+                                    aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                                    <div class="accordion-body">
+                                        <a href="/Alta/{{row.Id}}"
+                                            onclick=" return confirm('¿Seguro que desea eliminar su pedido?')"
+                                            class="btnlink">Eliminar</a>
+                                    </div>
+                                </div>
+                            </h2>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+{% endblock content %}

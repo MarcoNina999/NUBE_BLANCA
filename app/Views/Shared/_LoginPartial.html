@@ -1,0 +1,21 @@
+{% macro LoginPartial() %}
+{% if  'email' in session %}
+    <a class="nav-link" href="/Manager/Index">
+        <i class="fas fa-user fa-sm fa-fw mr-2"></i>{{session['username']}}
+    </a>
+    <a class="nav-link" href="Logout">
+        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2"></i>Cerrar Sesión
+    </a>
+    <a class="nav-link"href="/Acquire">
+        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2"></i>Adquisiciones
+    </a>
+{% else %}
+    <a class="nav-link" href="/Register">
+        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2"></i>Registrar
+    </a>
+
+    <a class="nav-link" href="/Login">
+        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 "></i>Iniciar Sesión
+    </a>
+    {% endif %}
+{% endmacro %}
